@@ -1,0 +1,32 @@
+{{#each items}}
+    <div class="grid-item col-12 col-lg-6 col-xl-4 mb-3" data-aos="fade-up" data-id="{{this.media_id}}">
+        <div class="card">
+
+            <div class="img-container">
+                {{#if this.image}}
+                    <div class="img lazy" style="background-image: url('assets/images/img.jpg');"
+                         data-bg="{{this.image}}">
+                        <a href="#" class="item-url"></a>
+                    </div>
+                {{/if}}
+
+                {{#ifeq this.media_type 'audio'}}
+                    Audio
+                {{/ifeq}}
+            </div>
+            <div class="caption card-body">
+                <h5 class="card-title">
+                    <a href="#" class="item-url">{{this.title}}</a>
+                </h5>
+                <p class="inner">
+                    {{this.description}}
+                </p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <a class="alert-link item-url" href="#">Виж повече</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/each}}
