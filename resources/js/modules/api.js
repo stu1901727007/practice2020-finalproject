@@ -60,12 +60,12 @@ class Api {
             query.push('year_end=' + criteria.year_end);
 
 
-        //const cache = this.cache.getSearch(query);
-        //
-        // if (cache !== null) {
-        //     callback(cache);
-        //     return true;
-        // }
+        const cache = this.cache.getSearch(query);
+
+        if (cache !== null) {
+            callback(cache);
+            return true;
+        }
 
         const enpoint = this.endpointUrl + this.search + '?' + query.join('&');
 

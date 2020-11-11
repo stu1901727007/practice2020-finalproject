@@ -11,43 +11,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8375b0c0-b498-4a34-bfd2-ef4dbabbacc1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/templates/elements/item.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/elements/mainFilter.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/elements/placeholderItems.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/elements/sidebar.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/elements/svg.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/modal/about.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/pages/error.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/pages/home.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/pages/itemView.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/pages/missing.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/pages/results.handlebars" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/style.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/vendors.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/vendors.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/modules/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/cache.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/cache.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/error.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/error.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/navigation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/modules/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/scss/_custom.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/scss/_custom.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/scss/bootstrap/_bootswatch.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/scss/bootstrap/_bootswatch.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/about.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/layout/layout.handlebars" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/credits.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/modal/credits.handlebars" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/home.handlebars" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/item.handlebars" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/missing.handlebars" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/modal.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/modal/modal.handlebars" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/placeholderItems.handlebars" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/elements/mainFilter.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/elements/mainFilter.handlebars" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +100,8 @@
       <workItem from="1604648652652" duration="850000" />
       <workItem from="1604693213676" duration="43378000" />
       <workItem from="1604995067076" duration="264000" />
-      <workItem from="1605076758464" duration="10798000" />
+      <workItem from="1605076758464" duration="13399000" />
+      <workItem from="1605121392658" duration="155000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1604821325057</created>
@@ -146,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604821406651</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="initial">
+      <created>1605117642153</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1605117642153</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,10 +140,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial" />
   </component>
   <component name="WindowStateProjectService">
     <state x="437" y="247" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604558272443">

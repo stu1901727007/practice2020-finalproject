@@ -83,7 +83,7 @@ class App {
      */
     loadHome() {
 
-        const topics = ['mars', 'voyager', 'viking']
+        const topics = ['mars', 'voyager', 'viking', 'spacex']
 
         this.search.showSimple();
 
@@ -206,7 +206,6 @@ class App {
                     $('.results-container').masonry('layout');
                 }
             });
-
         });
 
         return this;

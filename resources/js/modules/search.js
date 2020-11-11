@@ -9,27 +9,23 @@ class Search {
     constructor() {
 
         this.timerSearch = null;
-        this.nasaCenters = ['Ames Research Center',
-            'Armstrong Flight Research Center',
-            'Glenn Research Center',
-            'Goddard Space Flight Center',
-            'Goddard Institute of Space Studies',
-            'Katherine Johnson IV and V Facility',
-            'Jet Propulsion Laboratory',
-            'Johnson Space Center',
-            'Kennedy Space Center',
-            'Langley Research Center',
-            'Marshall Space Flight Center',
-            'Michoud Assembly Facility',
-            'NASA Engineering and Safety Center',
-            'NASA Headquarters',
-            'NASA Safety Center',
-            'NASA Shared Services Center',
-            'Plum Brook Station',
-            'Stennis Space Center',
-            'Wallops Flight Facility',
-            'White Sands Test Facility'
-        ];
+        this.nasaCenters = {
+            'ARC': 'Ames Research Center',
+            'AFRC': 'Armstrong Flight Research Center',
+            'GRC': 'Glenn Research Center',
+            'GSFC':'Goddard Space Flight Center',
+            'GISS': 'Goddard Institute of Space Studies',
+            'JPL': 'Jet Propulsion Laboratory',
+            'JSC': 'Johnson Space Center',
+            'KSC' : 'Kennedy Space Center',
+            'LaRC': 'Langley Research Center',
+            'MSFC': 'Marshall Space Flight Center',
+            'MAF': 'Michoud Assembly Facility',
+            'SSC': 'Stennis Space Center',
+            'WFF': 'Wallops Flight Facility',
+            'WSMR': 'White Sands Test Facility'
+        };
+
         this.init();
     }
 
