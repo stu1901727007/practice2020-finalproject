@@ -3,13 +3,40 @@
  */
 class Search {
 
+    /**
+     * Search constructor
+     */
     constructor() {
 
         this.timerSearch = null;
-
+        this.nasaCenters = ['Ames Research Center',
+            'Armstrong Flight Research Center',
+            'Glenn Research Center',
+            'Goddard Space Flight Center',
+            'Goddard Institute of Space Studies',
+            'Katherine Johnson IV and V Facility',
+            'Jet Propulsion Laboratory',
+            'Johnson Space Center',
+            'Kennedy Space Center',
+            'Langley Research Center',
+            'Marshall Space Flight Center',
+            'Michoud Assembly Facility',
+            'NASA Engineering and Safety Center',
+            'NASA Headquarters',
+            'NASA Safety Center',
+            'NASA Shared Services Center',
+            'Plum Brook Station',
+            'Stennis Space Center',
+            'Wallops Flight Facility',
+            'White Sands Test Facility'
+        ];
         this.init();
     }
 
+    /**
+     *
+     * @returns {Search}
+     */
     init() {
 
         let that = this;
@@ -24,7 +51,7 @@ class Search {
         /**
          * При писане във формата
          */
-        $(document).on('keyup','.filter-form input[name="search"]', function (e) {
+        $(document).on('keyup', '.filter-form input[name="search"]', function (e) {
 
             clearTimeout(that.timerSearch);
 
@@ -45,33 +72,102 @@ class Search {
             that.search();
         });
 
+        /**
+         * Детайлно търсене
+         */
+        $(document).on('click', '.advanced-search', function (e) {
+
+            e.preventDefault();
+
+            clearTimeout(that.timerSearch);
+            that.showAdvance();
+
+        });
+
         return this;
     }
 
+    /**
+     *
+     * @returns {Search}
+     */
     search() {
-        let that = this;
 
-        app.api.call(this.prepareSearchObject(), this.loadResults);
+        try {
+            app.api.call(this.prepareSearchObject(), app.loadResults.bind(app));
+        } catch (err) {
+        }
 
         return this;
     }
 
+    /**
+     *
+     * @returns {{q: (jQuery|string|undefined), media_type: *}}
+     */
     prepareSearchObject() {
 
         let checkedVals = $('.filter-form input[name="media_type[]"]:checked').map(function () {
             return this.value;
         }).get();
 
-        let criteria = {'q': $('.filter-form input[name="search"]').val(), 'media_type': checkedVals.join(",")};
+        let criteria = {
+            'q': $('.filter-form input[name="search"]').val(),
+            'center': $('.filter-form select[name="center"]').val(),
+            'year_start': $('.filter-form input[name="years-from"]').val(),
+            'year_end': $('.filter-form input[name="years-to"]').val(),
+            'media_type': checkedVals.join(",")
+        };
 
         return criteria;
     }
 
-    loadResults(results) {
+    /**
+     *
+     * @returns {Search}
+     */
+    showAdvance() {
+        $('.filter-wrapper form').html(Handlebars.templates.extendedFilter({'centers': this.nasaCenters}));
 
-        let collection = results.collection;
+        this.initAdvanced();
 
-        console.log( collection );
-        console.log(collection.metadata.total_hits);
+        return this;
+    }
+
+    /**
+     *
+     * @returns {Search}
+     */
+    showSimple() {
+        $('.filter-wrapper form').html(Handlebars.templates.mainFilter());
+
+        return this;
+    }
+
+    /**
+     *
+     * @returns {Search}
+     */
+    initAdvanced() {
+        let d = new Date();
+
+        $("#ranges").html("1920г. - " + d.getFullYear() + "г.");
+        $("#years-from").val(1920);
+        $("#years-to").val(d.getFullYear());
+
+        $("#year-range").slider({
+            range: true,
+            min: 1920,
+            max: d.getFullYear(),
+            values: [1920, d.getFullYear()],
+            slide: function (event, ui) {
+                $("#years-from").val(ui.values[0]);
+                $("#years-to").val(ui.values[1]);
+
+                $("#ranges").html(ui.values[0] + "г. - " + ui.values[1] + "г.");
+            }
+        });
+
+        return this;
     }
 }

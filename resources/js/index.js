@@ -7,8 +7,12 @@ class App {
      * App constructor
      */
     constructor() {
-        this.pageContainer = $('#page-wrapper .page-container');
+        app = this
+
         this.init();
+        this.layout();
+
+        return this;
     }
 
     /**
@@ -19,13 +23,31 @@ class App {
 
         AOS.init({once: true});
 
-        this.lazyLoadInstance = new LazyLoad({});
-
-        this.cache = new CacheApi();
         this.navigation = new Navigation();
         this.search = new Search();
         this.api = new Api();
 
+        $(document).on('click', '.grid-item a', function (e) {
+            e.preventDefault();
+
+            const parent = $(this).closest('.grid-item'),
+                id = parent.data('id');
+
+            app.api.callMedia(id, app.loadMedia);
+        });
+
+        return this;
+    }
+
+    /**
+     *
+     * @returns {App}
+     */
+    layout() {
+        $('body').html(Handlebars.templates.layout());
+
+        this.pageContainer = $('#page-wrapper .page-container');
+        this.resetResult();
         this.prepareHome();
 
         return this;
@@ -35,8 +57,21 @@ class App {
      *
      * @returns {App}
      */
+    resetResult() {
+        this.currentResult = null;
+        this.currentpage = 1;
+
+        return this;
+    }
+
+    /**
+     *
+     * @returns {App}
+     */
     prepareHome() {
+
         this.pageContainer.append(Handlebars.templates.home());
+
         this.loadHome();
 
         return this;
@@ -47,8 +82,18 @@ class App {
      * @returns {App}
      */
     loadHome() {
-        let popular = {q: 'mars', 'media_type': 'video,audio,images'};
-        this.api.call(popular, this.loadPopular.bind(this));
+
+        const topics = ['mars', 'voyager', 'viking']
+
+        this.search.showSimple();
+
+        let popular = {q: topics[Math.floor(Math.random() * topics.length)], 'media_type': 'image,video,audio'};
+
+        try {
+            this.api.call(popular, this.loadPopular.bind(this));
+        } catch (error) {
+        }
+
         return this;
     }
 
@@ -58,39 +103,116 @@ class App {
      * @returns {App}
      */
     loadPopular(result) {
-        let items = null;
 
-        if (result.collection.metadata.total_hits > 0) {
-
-            items = Utils.normalise(result.collection.items);
-
-            let html = Handlebars.templates.item({'items': items});
-
-            $('.most-popular-wrapper .results-container').html(html);
-
-            $('.most-popular-wrapper').imagesLoaded(function () {
-                $('.most-popular-wrapper .placeholders').fadeOut();
-                $('.most-popular-wrapper .results-container').removeClass('d-none')
-
-                AOS.refresh();
-
-                $('.results-container').masonry({
-                    itemSelector: '.grid-item',
-                    gutter: 0
-                });
-
-
-                app.lazyLoadInstance.update();
-            });
-        } else {
-            throw new ValidationError('Има проблем със заявката!');
+        if (result === undefined || result === null) {
+            throw new ValidationError('Имам проблем със заявката!');
         }
+
+        this.resetResult();
+        this.currentResult = result;
+
+        this.setHtmlContainer(Handlebars.templates.results({'title': 'Избор на редактора'}));
+
+        if (result.total_hits > 0) {
+
+            this.setHtmlResult(result.items);
+
+        } else {
+            this.setHtmlContainer(Handlebars.templates.missing);
+        }
+
+        return this;
+    }
+
+    /**
+     *
+     * @param result
+     * @returns {App}
+     */
+    loadResults(result) {
+
+        this.resetResult();
+
+        this.setHtmlContainer(Handlebars.templates.results({'title': 'Резултати'}));
+
+        if (result.total_hits > 0) {
+
+            this.setHtmlResult(result.items);
+
+        } else {
+            this.setHtmlContainer(Handlebars.templates.missing);
+        }
+
+        return this;
+    }
+
+    /**
+     *
+     * @param result
+     * @returns {App}
+     */
+    loadMedia(result) {
+
+        // this.resetResult();
+        //
+        // this.setHtmlContainer(Handlebars.templates.results({'title': 'Резултати'}));
+        //
+        // if (result.total_hits > 0) {
+        //
+        //     this.setHtmlResult(result.items);
+        //
+        // } else {
+        //     this.setHtmlContainer(Handlebars.templates.missing);
+        // }
+
+        return this;
+    }
+
+    /**
+     *
+     * @param html
+     * @returns {App}
+     */
+    setHtmlContainer(html) {
+        this.pageContainer.find('.data-wrapper').empty();
+        this.pageContainer.find('.data-wrapper').html(html);
+
+        return this;
+    }
+
+    /**
+     *
+     * @param items
+     * @returns {App}
+     */
+    setHtmlResult(items) {
+
+        const html = Handlebars.templates.item({'items': items});
+
+        $('.data-wrapper .results-container').html(html);
+        $('.data-wrapper').imagesLoaded(function () {
+
+            $('.data-wrapper .placeholders').fadeOut();
+            $('.data-wrapper .results-container').removeClass('d-none')
+
+            $('.results-container').masonry({
+                itemSelector: '.grid-item',
+                gutter: 0
+            });
+
+            var lazy = new LazyLoad({
+                elements_selector: ".lazy",
+                callback_loaded: function () {
+                    $('.results-container').masonry('layout');
+                }
+            });
+
+        });
 
         return this;
     }
 }
 
-let app = null;
 $(function () {
-    app = new App();
+    new App();
 });

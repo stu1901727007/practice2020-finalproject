@@ -3,23 +3,38 @@
  */
 class Navigation {
 
+    /**
+     * Navigation constructor
+     */
     constructor() {
         this.init();
     }
 
+    /**
+     *
+     * @returns {Navigation}
+     */
     init() {
 
         /**
          * Управлява лявата колона
          */
-        $('#sidebarCollapse').on('click', function () {
+        $(document).on('click', '#sidebarCollapse', function () {
             $('#sidebar').toggleClass('active');
+        });
+
+
+        $(document).on('click', '.lnk-home', function (e) {
+            e.preventDefault();
+            app.prepareHome();
         });
 
         /**
          * Оперира със базови линкове
          */
-        $('.lnk-modal').on('click', function () {
+        $(document).on('click', '.lnk-modal', function (e) {
+
+            e.preventDefault();
 
             let page = $(this).data('page'),
                 modal = Handlebars.templates.modal;
@@ -46,5 +61,7 @@ class Navigation {
             });
 
         });
+
+        return this;
     }
 }

@@ -6,6 +6,28 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (typeof call === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var app = null;
+Handlebars.partials = Handlebars.templates;
 Handlebars.registerHelper('times', function (n, block) {
   var accum = '';
 
@@ -45,9 +67,6 @@ var Utils = {
         link = null;
     items.forEach(function (item, key) {
       var i = {};
-      console.log(item);
-      var hasImage = true;
-      if (item.links === undefined) hasImage = false;
       data = item.data[0];
       link = item.links !== undefined ? item.links[0] : null;
       i.image = link !== null ? link.href : null;
@@ -80,8 +99,52 @@ var Utils = {
   }
 };
 /**
+ * Error handler
+ */
+
+var ValidationError = /*#__PURE__*/function (_Error) {
+  _inherits(ValidationError, _Error);
+
+  var _super = _createSuper(ValidationError);
+
+  /**
+   * ValidationError constructor
+   * @param message
+   */
+  function ValidationError(message) {
+    var _this;
+
+    _classCallCheck(this, ValidationError);
+
+    _this = _super.call(this, message); // this.message = message;
+    // this.name = "Error";
+
+    _this.show();
+
+    return _this;
+  }
+  /**
+   *
+   * @returns {ValidationError}
+   */
+
+
+  _createClass(ValidationError, [{
+    key: "show",
+    value: function show() {
+      app.setHtmlContainer(Handlebars.templates.error({
+        'message': this.message
+      }));
+      return this;
+    }
+  }]);
+
+  return ValidationError;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
+/**
  *
  */
+
 
 var CacheApi = /*#__PURE__*/function () {
   /**
@@ -90,22 +153,49 @@ var CacheApi = /*#__PURE__*/function () {
   function CacheApi() {
     _classCallCheck(this, CacheApi);
 
-    this.cacheApi = 'api-calls'; //
-    // if( localStorage.getItem(this.cacheApi) === null )
-    // {
-    //     localStorage.setItem(this.cacheApi, []);
-    // }
-    //
-    // this.storage = localStorage.getItem( this.cacheApi );
+    this.cacheApi = 'api-calls';
+
+    if (localStorage.getItem(this.cacheApi) === null) {
+      localStorage.setItem(this.cacheApi, '{}');
+    }
   }
   /**
    *
-   * @param key
-   * @returns {boolean}
+   * @param criteria
+   * @returns {string|null}
    */
 
 
   _createClass(CacheApi, [{
+    key: "getSearch",
+    value: function getSearch(criteria) {
+      var hash = md5(JSON.stringify(criteria));
+      var cache = JSON.parse(this.get(this.cacheApi));
+      return cache[hash] !== undefined ? cache[hash] : null;
+    }
+    /**
+     *
+     * @param criteria
+     * @param data
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "saveSearch",
+    value: function saveSearch(criteria, data) {
+      var hash = md5(JSON.stringify(criteria));
+      var cache = JSON.parse(this.get(this.cacheApi));
+      cache[hash] = data;
+      this.set(this.cacheApi, JSON.stringify(cache));
+      return true;
+    }
+    /**
+     *
+     * @param key
+     * @returns {boolean}
+     */
+
+  }, {
     key: "has",
     value: function has(key) {
       return localStorage.getItem(key) === null ? false : true;
@@ -119,7 +209,7 @@ var CacheApi = /*#__PURE__*/function () {
   }, {
     key: "set",
     value: function set(key, item) {
-      return localStorage.setItem(key, value);
+      return localStorage.setItem(key, item);
     }
     /**
      *
@@ -158,17 +248,225 @@ var CacheApi = /*#__PURE__*/function () {
   return CacheApi;
 }();
 /**
+ * Api NASA
+ */
+
+
+var Api = /*#__PURE__*/function () {
+  /**
+   * Api constructor
+   * @param param
+   */
+  function Api() {
+    _classCallCheck(this, Api);
+
+    this.cache = new CacheApi();
+    this.endpointUrl = 'https://images-api.nasa.gov';
+    this.search = '/search';
+    this.media = '/asset/';
+    this.metadata = '/metadata/';
+    this.captions = '/captions/';
+  }
+  /**
+   *
+   * @param criteria
+   * @param callback
+   * @returns {Api|boolean}
+   */
+
+
+  _createClass(Api, [{
+    key: "call",
+    value: function call(criteria, callback) {
+      var that = this;
+      console.log(criteria);
+
+      if (typeof callback !== 'function') {
+        throw new ValidationError("Системен проблем!");
+      }
+
+      if (criteria.q == undefined || criteria.q.length <= 0) {
+        throw new ValidationError("Няма критерий на търсене!");
+      }
+
+      if (criteria.page == undefined) criteria.page = 1;
+      if (criteria.media_type == undefined) criteria.media_type = 'images,video,audio';
+      var query = [];
+      query.push('page=' + criteria.page);
+      query.push('q=' + criteria.q);
+      query.push('media_type=' + criteria.media_type);
+      if (criteria.center !== undefined) query.push('center=' + criteria.center);
+      if (criteria.year_start !== undefined) query.push('year_start=' + criteria.year_start);
+      if (criteria.year_end !== undefined) query.push('year_end=' + criteria.year_end); //const cache = this.cache.getSearch(query);
+      //
+      // if (cache !== null) {
+      //     callback(cache);
+      //     return true;
+      // }
+
+      var enpoint = this.endpointUrl + this.search + '?' + query.join('&');
+      console.log(enpoint);
+      $.ajax({
+        url: enpoint,
+        dataType: 'json'
+      }).done(function (result) {
+        var items = Utils.normalise(result.collection.items);
+        var data = {
+          'items': items,
+          'total_hits': result.collection.metadata.total_hits
+        };
+        that.cache.saveSearch(query, data);
+        callback(data);
+      }).fail(function () {
+        throw new ValidationError("Възникна проблем при четене от API! Опитайте след 5 минути.");
+      });
+      return this;
+    }
+    /**
+     *
+     * @param mediaId
+     * @param callback
+     * @returns {Api|boolean}
+     */
+
+  }, {
+    key: "callMedia",
+    value: function callMedia(mediaId, callback) {
+      var that = this;
+
+      if (typeof callback !== 'function') {
+        throw new ValidationError("Проблем с callback");
+      }
+
+      if (mediaId == undefined || mediaId.length <= 0) {
+        throw new ValidationError("Няма критерий на търсене!");
+      }
+
+      var query = [];
+      query.push('media_id=' + mediaId); // const cache = this.cache.getSearch(query);
+      //
+      // if (cache !== null) {
+      //     callback(cache);
+      //     return true;
+      // }
+
+      var enpoint = this.endpointUrl + this.media + mediaId;
+      $.ajax({
+        url: enpoint,
+        dataType: 'json'
+      }).done(function (result) {
+        consol.log(result); //const items = Utils.normalise(result.collection.items);
+        // let data = {
+        //     'items': items,
+        //     'total_hits': result.collection.metadata.total_hits
+        // };
+        //
+        // that.cache.saveSearch(query, data);
+
+        callback(data);
+      });
+      return this;
+    }
+  }]);
+
+  return Api;
+}();
+/**
+ * Навигация
+ */
+
+
+var Navigation = /*#__PURE__*/function () {
+  /**
+   * Navigation constructor
+   */
+  function Navigation() {
+    _classCallCheck(this, Navigation);
+
+    this.init();
+  }
+  /**
+   *
+   * @returns {Navigation}
+   */
+
+
+  _createClass(Navigation, [{
+    key: "init",
+    value: function init() {
+      /**
+       * Управлява лявата колона
+       */
+      $(document).on('click', '#sidebarCollapse', function () {
+        $('#sidebar').toggleClass('active');
+      });
+      $(document).on('click', '.lnk-home', function (e) {
+        e.preventDefault();
+        app.prepareHome();
+      });
+      /**
+       * Оперира със базови линкове
+       */
+
+      $(document).on('click', '.lnk-modal', function (e) {
+        e.preventDefault();
+        var page = $(this).data('page'),
+            modal = Handlebars.templates.modal;
+        var html = '';
+
+        switch (page) {
+          case 'about':
+            html = modal({
+              'title': 'За проекта',
+              'body': Handlebars.templates.about()
+            });
+            break;
+
+          case 'credits':
+            html = modal({
+              'title': 'Кредити',
+              'body': Handlebars.templates.credits()
+            });
+            break;
+        }
+
+        $('body').append(html);
+        $('#innerModal').modal('show');
+        /**
+         * Премахваме модалния прозорец
+         */
+
+        $('#innerModal').one('hidden.bs.modal', function () {
+          $(this).remove();
+        });
+      });
+      return this;
+    }
+  }]);
+
+  return Navigation;
+}();
+/**
  * Управлява полетата за търсене и филтриране
  */
 
 
 var Search = /*#__PURE__*/function () {
+  /**
+   * Search constructor
+   */
   function Search() {
     _classCallCheck(this, Search);
 
     this.timerSearch = null;
+    this.nasaCenters = ['Ames Research Center', 'Armstrong Flight Research Center', 'Glenn Research Center', 'Goddard Space Flight Center', 'Goddard Institute of Space Studies', 'Katherine Johnson IV and V Facility', 'Jet Propulsion Laboratory', 'Johnson Space Center', 'Kennedy Space Center', 'Langley Research Center', 'Marshall Space Flight Center', 'Michoud Assembly Facility', 'NASA Engineering and Safety Center', 'NASA Headquarters', 'NASA Safety Center', 'NASA Shared Services Center', 'Plum Brook Station', 'Stennis Space Center', 'Wallops Flight Facility', 'White Sands Test Facility'];
     this.init();
   }
+  /**
+   *
+   * @returns {Search}
+   */
+
 
   _createClass(Search, [{
     key: "init",
@@ -202,15 +500,36 @@ var Search = /*#__PURE__*/function () {
         clearTimeout(that.timerSearch);
         that.search();
       });
+      /**
+       * Детайлно търсене
+       */
+
+      $(document).on('click', '.advanced-search', function (e) {
+        e.preventDefault();
+        clearTimeout(that.timerSearch);
+        that.showAdvance();
+      });
       return this;
     }
+    /**
+     *
+     * @returns {Search}
+     */
+
   }, {
     key: "search",
     value: function search() {
-      var that = this;
-      app.api.call(this.prepareSearchObject(), this.loadResults);
+      try {
+        app.api.call(this.prepareSearchObject(), app.loadResults.bind(app));
+      } catch (err) {}
+
       return this;
     }
+    /**
+     *
+     * @returns {{q: (jQuery|string|undefined), media_type: *}}
+     */
+
   }, {
     key: "prepareSearchObject",
     value: function prepareSearchObject() {
@@ -219,135 +538,66 @@ var Search = /*#__PURE__*/function () {
       }).get();
       var criteria = {
         'q': $('.filter-form input[name="search"]').val(),
+        'center': $('.filter-form select[name="center"]').val(),
+        'year_start': $('.filter-form input[name="years-from"]').val(),
+        'year_end': $('.filter-form input[name="years-to"]').val(),
         'media_type': checkedVals.join(",")
       };
       return criteria;
     }
+    /**
+     *
+     * @returns {Search}
+     */
+
   }, {
-    key: "loadResults",
-    value: function loadResults(results) {
-      var collection = results.collection;
-      console.log(collection);
-      console.log(collection.metadata.total_hits);
+    key: "showAdvance",
+    value: function showAdvance() {
+      $('.filter-wrapper form').html(Handlebars.templates.extendedFilter({
+        'centers': this.nasaCenters
+      }));
+      this.initAdvanced();
+      return this;
+    }
+    /**
+     *
+     * @returns {Search}
+     */
+
+  }, {
+    key: "showSimple",
+    value: function showSimple() {
+      $('.filter-wrapper form').html(Handlebars.templates.mainFilter());
+      return this;
+    }
+    /**
+     *
+     * @returns {Search}
+     */
+
+  }, {
+    key: "initAdvanced",
+    value: function initAdvanced() {
+      var d = new Date();
+      $("#ranges").html("1920г. - " + d.getFullYear() + "г.");
+      $("#years-from").val(1920);
+      $("#years-to").val(d.getFullYear());
+      $("#year-range").slider({
+        range: true,
+        min: 1920,
+        max: d.getFullYear(),
+        values: [1920, d.getFullYear()],
+        slide: function slide(event, ui) {
+          $("#years-from").val(ui.values[0]);
+          $("#years-to").val(ui.values[1]);
+          $("#ranges").html(ui.values[0] + "г. - " + ui.values[1] + "г.");
+        }
+      });
+      return this;
     }
   }]);
 
   return Search;
-}();
-/**
- * Api NASA
- */
-
-
-var Api = /*#__PURE__*/function () {
-  function Api() {
-    _classCallCheck(this, Api);
-
-    this.endpointUrl = 'https://images-api.nasa.gov';
-    this.search = '/search';
-    this.asset = '/asset/{nasa_id}';
-    this.metadata = '/metadata/{nasa_id}';
-    this.captions = '/captions/{nasa_id}';
-    this.init();
-
-    if (arguments.length == 2) {
-      this.call(arguments.length <= 0 ? undefined : arguments[0], arguments.length <= 1 ? undefined : arguments[1]);
-    }
-  }
-
-  _createClass(Api, [{
-    key: "init",
-    value: function init() {
-      return this;
-    }
-  }, {
-    key: "mostPolupar",
-    value: function mostPolupar() {}
-  }, {
-    key: "call",
-    value: function call(criteria, callback) {
-      var that = this;
-
-      if (typeof callback !== 'function') {
-        throw new Error("Проблем с callback");
-      }
-
-      var query = [];
-      query.push('q=' + criteria.q);
-      query.push('media_type=' + criteria.media_type);
-      var enpoint = this.endpointUrl + this.search + '?' + query.join('&');
-      $.ajax({
-        url: enpoint,
-        dataType: 'json'
-      }).done(function (data) {
-        callback(data);
-      });
-      return this;
-    }
-  }]);
-
-  return Api;
-}();
-/**
- * Навигация
- */
-
-
-var Navigation = /*#__PURE__*/function () {
-  function Navigation() {
-    _classCallCheck(this, Navigation);
-
-    this.init();
-  }
-
-  _createClass(Navigation, [{
-    key: "init",
-    value: function init() {
-      /**
-       * Управлява лявата колона
-       */
-      $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-      });
-      /**
-       * Оперира със базови линкове
-       */
-
-      $('.lnk-modal').on('click', function () {
-        var page = $(this).data('page'),
-            modal = Handlebars.templates.modal;
-        var html = '';
-
-        switch (page) {
-          case 'about':
-            html = modal({
-              'title': 'За проекта',
-              'body': Handlebars.templates.about()
-            });
-            break;
-
-          case 'credits':
-            html = modal({
-              'title': 'Кредити',
-              'body': Handlebars.templates.credits()
-            });
-            break;
-        }
-
-        $('body').append(html);
-        $('#innerModal').modal('show');
-        /**
-         * Премахваме модалния прозорец
-         */
-
-        $('#innerModal').one('hidden.bs.modal', function () {
-          $(this).remove();
-        });
-      });
-    }
-  }]);
-
-  return Navigation;
 }();
 /**
  *  Application class
@@ -361,8 +611,10 @@ var App = /*#__PURE__*/function () {
   function App() {
     _classCallCheck(this, App);
 
-    this.pageContainer = $('#page-wrapper .page-container');
+    app = this;
     this.init();
+    this.layout();
+    return this;
   }
   /**
    *
@@ -376,12 +628,41 @@ var App = /*#__PURE__*/function () {
       AOS.init({
         once: true
       });
-      this.lazyLoadInstance = new LazyLoad({});
-      this.cache = new CacheApi();
       this.navigation = new Navigation();
       this.search = new Search();
       this.api = new Api();
+      $(document).on('click', '.grid-item a', function (e) {
+        e.preventDefault();
+        var parent = $(this).closest('.grid-item'),
+            id = parent.data('id');
+        app.api.callMedia(id, app.loadMedia);
+      });
+      return this;
+    }
+    /**
+     *
+     * @returns {App}
+     */
+
+  }, {
+    key: "layout",
+    value: function layout() {
+      $('body').html(Handlebars.templates.layout());
+      this.pageContainer = $('#page-wrapper .page-container');
+      this.resetResult();
       this.prepareHome();
+      return this;
+    }
+    /**
+     *
+     * @returns {App}
+     */
+
+  }, {
+    key: "resetResult",
+    value: function resetResult() {
+      this.currentResult = null;
+      this.currentpage = 1;
       return this;
     }
     /**
@@ -404,11 +685,17 @@ var App = /*#__PURE__*/function () {
   }, {
     key: "loadHome",
     value: function loadHome() {
+      var topics = ['mars', 'voyager', 'viking'];
+      this.search.showSimple();
       var popular = {
-        q: 'mars',
-        'media_type': 'video,audio,images'
+        q: topics[Math.floor(Math.random() * topics.length)],
+        'media_type': 'image,video,audio'
       };
-      this.api.call(popular, this.loadPopular.bind(this));
+
+      try {
+        this.api.call(popular, this.loadPopular.bind(this));
+      } catch (error) {}
+
       return this;
     }
     /**
@@ -420,28 +707,108 @@ var App = /*#__PURE__*/function () {
   }, {
     key: "loadPopular",
     value: function loadPopular(result) {
-      var items = null;
-
-      if (result.collection.metadata.total_hits > 0) {
-        items = Utils.normalise(result.collection.items);
-        var html = Handlebars.templates.item({
-          'items': items
-        });
-        $('.most-popular-wrapper .results-container').html(html);
-        $('.most-popular-wrapper').imagesLoaded(function () {
-          $('.most-popular-wrapper .placeholders').fadeOut();
-          $('.most-popular-wrapper .results-container').removeClass('d-none');
-          AOS.refresh();
-          $('.results-container').masonry({
-            itemSelector: '.grid-item',
-            gutter: 0
-          });
-          app.lazyLoadInstance.update();
-        });
-      } else {
-        throw new ValidationError('Има проблем със заявката!');
+      if (result === undefined || result === null) {
+        throw new ValidationError('Имам проблем със заявката!');
       }
 
+      this.resetResult();
+      this.currentResult = result;
+      this.setHtmlContainer(Handlebars.templates.results({
+        'title': 'Избор на редактора'
+      }));
+
+      if (result.total_hits > 0) {
+        this.setHtmlResult(result.items);
+      } else {
+        this.setHtmlContainer(Handlebars.templates.missing);
+      }
+
+      return this;
+    }
+    /**
+     *
+     * @param result
+     * @returns {App}
+     */
+
+  }, {
+    key: "loadResults",
+    value: function loadResults(result) {
+      this.resetResult();
+      this.setHtmlContainer(Handlebars.templates.results({
+        'title': 'Резултати'
+      }));
+
+      if (result.total_hits > 0) {
+        this.setHtmlResult(result.items);
+      } else {
+        this.setHtmlContainer(Handlebars.templates.missing);
+      }
+
+      return this;
+    }
+    /**
+     *
+     * @param result
+     * @returns {App}
+     */
+
+  }, {
+    key: "loadMedia",
+    value: function loadMedia(result) {
+      // this.resetResult();
+      //
+      // this.setHtmlContainer(Handlebars.templates.results({'title': 'Резултати'}));
+      //
+      // if (result.total_hits > 0) {
+      //
+      //     this.setHtmlResult(result.items);
+      //
+      // } else {
+      //     this.setHtmlContainer(Handlebars.templates.missing);
+      // }
+      return this;
+    }
+    /**
+     *
+     * @param html
+     * @returns {App}
+     */
+
+  }, {
+    key: "setHtmlContainer",
+    value: function setHtmlContainer(html) {
+      this.pageContainer.find('.data-wrapper').empty();
+      this.pageContainer.find('.data-wrapper').html(html);
+      return this;
+    }
+    /**
+     *
+     * @param items
+     * @returns {App}
+     */
+
+  }, {
+    key: "setHtmlResult",
+    value: function setHtmlResult(items) {
+      var html = Handlebars.templates.item({
+        'items': items
+      });
+      $('.data-wrapper .results-container').html(html);
+      $('.data-wrapper').imagesLoaded(function () {
+        $('.data-wrapper .placeholders').fadeOut();
+        $('.data-wrapper .results-container').removeClass('d-none');
+        $('.results-container').masonry({
+          itemSelector: '.grid-item',
+          gutter: 0
+        });
+        var lazy = new LazyLoad({
+          elements_selector: ".lazy",
+          callback_loaded: function callback_loaded() {
+            $('.results-container').masonry('layout');
+          }
+        });
+      });
       return this;
     }
   }]);
@@ -449,7 +816,6 @@ var App = /*#__PURE__*/function () {
   return App;
 }();
 
-var app = null;
 $(function () {
-  app = new App();
+  new App();
 });
