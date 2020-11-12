@@ -28,8 +28,7 @@ class Api {
 
         let that = this;
 
-        console.log(criteria);
-
+        app.setHtmlContainer(Handlebars.templates.placeholderItems());
 
         if (typeof callback !== 'function') {
             throw new ValidationError("Системен проблем!");
@@ -69,8 +68,6 @@ class Api {
 
         const enpoint = this.endpointUrl + this.search + '?' + query.join('&');
 
-        console.log( enpoint) ;
-
         $.ajax({
             url: enpoint,
             dataType: 'json'
@@ -86,8 +83,9 @@ class Api {
             that.cache.saveSearch(query, data);
 
             callback(data);
+
         }).fail(function () {
-            throw new ValidationError("Възникна проблем при четене от API! Опитайте след 5 минути.");
+            throw new ValidationError("Възникна проблем при четене от API! <br/>Опитайте след 5 минути.");
         });
 
         return this;
@@ -101,46 +99,11 @@ class Api {
      */
     callMedia(mediaId, callback) {
 
-        let that = this;
 
-        if (typeof callback !== 'function') {
-            throw new ValidationError("Проблем с callback");
-        }
 
-        if (mediaId == undefined || mediaId.length <= 0) {
-            throw new ValidationError("Няма критерий на търсене!");
-        }
 
-        let query = [];
-        query.push('media_id=' + mediaId);
 
-        // const cache = this.cache.getSearch(query);
-        //
-        // if (cache !== null) {
-        //     callback(cache);
-        //     return true;
-        // }
-
-        const enpoint = this.endpointUrl + this.media + mediaId;
-
-        $.ajax({
-            url: enpoint,
-            dataType: 'json'
-        }).done(function (result) {
-
-            consol.log(result);
-
-            //const items = Utils.normalise(result.collection.items);
-
-            // let data = {
-            //     'items': items,
-            //     'total_hits': result.collection.metadata.total_hits
-            // };
-            //
-            // that.cache.saveSearch(query, data);
-
-            callback(data);
-        });
+        callback(mediaId);
 
         return this;
     }

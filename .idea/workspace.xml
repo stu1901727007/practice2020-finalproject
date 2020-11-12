@@ -11,13 +11,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8375b0c0-b498-4a34-bfd2-ef4dbabbacc1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/templates/elements/switch.handlebars" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/templates/modal/modalMedia.handlebars" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/modules/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/modules/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/navigation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/modules/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/elements/mainFilter.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/elements/mainFilter.handlebars" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/modules/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/scss/_custom.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/scss/_custom.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/elements/item.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/elements/item.handlebars" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/elements/placeholderItems.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/elements/placeholderItems.handlebars" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/pages/error.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/pages/error.handlebars" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/pages/results.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/pages/results.handlebars" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,10 +64,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/resources/templates/elements" />
+      <recent name="$PROJECT_DIR$/resources/templates/modal" />
       <recent name="$PROJECT_DIR$/resources/templates/pages" />
       <recent name="$PROJECT_DIR$/resources/templates/layout" />
       <recent name="$PROJECT_DIR$/resources/templates" />
-      <recent name="$PROJECT_DIR$/resources/js/modules" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/resources/templates/elements" />
@@ -101,7 +110,9 @@
       <workItem from="1604693213676" duration="43378000" />
       <workItem from="1604995067076" duration="264000" />
       <workItem from="1605076758464" duration="13399000" />
-      <workItem from="1605121392658" duration="155000" />
+      <workItem from="1605121392658" duration="4122000" />
+      <workItem from="1605209523008" duration="291000" />
+      <workItem from="1605210072214" duration="8848000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1604821325057</created>
@@ -124,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605117642153</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Initial">
+      <created>1605122161893</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1605122161893</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,7 +163,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial" />
+    <MESSAGE value="Initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial" />
   </component>
   <component name="WindowStateProjectService">
     <state x="437" y="247" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604558272443">
@@ -178,9 +197,10 @@
       <screen x="0" y="23" width="1440" height="833" />
     </state>
     <state x="100" y="123" width="1240" height="629" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1440.833@0.23.1440.833" timestamp="1604560576571" />
-    <state x="418" y="184" width="604" height="523" key="find.popup" timestamp="1605077027007">
-      <screen x="0" y="23" width="1440" height="836" />
+    <state x="418" y="184" width="604" height="523" key="find.popup" timestamp="1605210395391">
+      <screen x="0" y="23" width="1440" height="835" />
     </state>
+    <state x="418" y="184" width="604" height="523" key="find.popup/0.23.1440.835@0.23.1440.835" timestamp="1605210395391" />
     <state x="418" y="184" width="604" height="523" key="find.popup/0.23.1440.836@0.23.1440.836" timestamp="1605077027007" />
     <state x="418" y="192" width="604" height="548" key="find.popup/0.23.1440.877/-186.-1057.1920.1005@0.23.1440.877" timestamp="1604842366631" />
     <state x="385" y="199" key="run.anything.popup" timestamp="1604561240219">

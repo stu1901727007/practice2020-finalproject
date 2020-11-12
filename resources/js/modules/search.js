@@ -10,14 +10,15 @@ class Search {
 
         this.timerSearch = null;
         this.nasaCenters = {
+            'HQ': 'NASA Headquarters',
             'ARC': 'Ames Research Center',
             'AFRC': 'Armstrong Flight Research Center',
             'GRC': 'Glenn Research Center',
-            'GSFC':'Goddard Space Flight Center',
+            'GSFC': 'Goddard Space Flight Center',
             'GISS': 'Goddard Institute of Space Studies',
             'JPL': 'Jet Propulsion Laboratory',
             'JSC': 'Johnson Space Center',
-            'KSC' : 'Kennedy Space Center',
+            'KSC': 'Kennedy Space Center',
             'LaRC': 'Langley Research Center',
             'MSFC': 'Marshall Space Flight Center',
             'MAF': 'Michoud Assembly Facility',
@@ -76,8 +77,28 @@ class Search {
             e.preventDefault();
 
             clearTimeout(that.timerSearch);
-            that.showAdvance();
+            that.showAdvanceFilter();
 
+        });
+
+        /**
+         * Смяна на изгледа
+         */
+        $(document).on('click', '.switch .btn', function (e) {
+
+            e.preventDefault();
+
+            $('.switch .btn').toggleClass('btn-info').toggleClass('btn-light');
+
+            let gridItem = $('.results-container .grid-item'),
+                img = gridItem.find('.img-container'),
+                caption = gridItem.find('.caption');
+
+            gridItem.toggleClass('col-lg-6 col-xl-4');
+            img.toggleClass('col-md-5');
+            caption.toggleClass('col-md-7');
+
+            $('.results-container').masonry('layout');
         });
 
         return this;
@@ -122,7 +143,7 @@ class Search {
      *
      * @returns {Search}
      */
-    showAdvance() {
+    showAdvanceFilter() {
         $('.filter-wrapper form').html(Handlebars.templates.extendedFilter({'centers': this.nasaCenters}));
 
         this.initAdvanced();
@@ -134,7 +155,7 @@ class Search {
      *
      * @returns {Search}
      */
-    showSimple() {
+    showSimpleFilter() {
         $('.filter-wrapper form').html(Handlebars.templates.mainFilter());
 
         return this;

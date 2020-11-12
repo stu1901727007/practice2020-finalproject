@@ -1,0 +1,46 @@
+<div class="modal fade bd-example-modal-lg" id="mediaModal" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{item.title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="img-container col-md-6">
+
+                        {{#ifeq item.media_type 'image'}}
+                            <img class="img-fluid" src="{{item.image}}"/>
+                            <span class="badge badge-light">Албум</span>
+                        {{/ifeq}}
+
+                        {{#ifeq item.media_type 'audio'}}
+                            <img class="img-fluid" src="assets/images/img.jpg"/>
+                            <span class="badge badge-secondary">Аудио</span>
+                        {{/ifeq}}
+
+                        {{#ifeq item.media_type 'video'}}
+                            <img class="img lazy" src="assets/images/img.jpg" data-src="{{item.image}}"/>
+                            <span class="badge badge-info">Видео</span>
+                        {{/ifeq}}
+
+                    </div>
+                    <div class="caption col-md-6">
+<!--                        <h5>-->
+<!--                            <a href="#" class="item-url">{{item.title}}</a>-->
+<!--                        </h5>-->
+                        <p class="inner">
+                            {{{item.description_full}}}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

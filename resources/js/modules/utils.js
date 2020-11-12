@@ -34,21 +34,28 @@ const Utils = {
      * @returns {[]}
      */
     normalise: function (items) {
-        let list = [];
+        let list = {};
         let data = null, link = null;
         items.forEach(function (item, key) {
-            let i = {};
+
 
             data = item.data[0];
             link = item.links !== undefined ? item.links[0] : null;
 
-            i.image = link !== null ? link.href : null;
-            i.title = data.title;
-            i.description = Utils.cutText(data.description, 200);
-            i.media_type = data.media_type;
-            i.media_id = data.nasa_id;
+            let i = {
+                'image': link !== null ? link.href : null,
+                'title': data.title,
+                'description': Utils.cutText(data.description, 200),
+                'description_full': data.description,
+                'media_type': data.media_type,
+                'media_id': data.nasa_id,
+                'keywords': data.keywords,
+                'date_created': data.date_created,
+                'center': data.center,
+                'links': item.href
+            };
 
-            list.push(i);
+            list[i.media_id] = i;
         });
 
         return list;

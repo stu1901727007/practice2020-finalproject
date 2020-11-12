@@ -30,7 +30,7 @@ class Navigation {
         });
 
         /**
-         * Оперира със базови линкове
+         * Оперира с базови линкове
          */
         $(document).on('click', '.lnk-modal', function (e) {
 

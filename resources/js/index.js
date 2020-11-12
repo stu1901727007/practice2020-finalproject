@@ -21,8 +21,11 @@ class App {
      */
     init() {
 
+        let that = this;
+
         AOS.init({once: true});
 
+        that.currentResult = null;
         this.navigation = new Navigation();
         this.search = new Search();
         this.api = new Api();
@@ -33,7 +36,14 @@ class App {
             const parent = $(this).closest('.grid-item'),
                 id = parent.data('id');
 
-            app.api.callMedia(id, app.loadMedia);
+            if (that.currentResult !== null) {
+                if (that.currentResult.items[id] !== undefined) {
+
+                    console.log(that.currentResult.items[id]);
+
+                    //app.api.callMedia(id, , that.loadMedia);
+                }
+            }
         });
 
         return this;
@@ -85,7 +95,7 @@ class App {
 
         const topics = ['mars', 'voyager', 'viking', 'spacex']
 
-        this.search.showSimple();
+        this.search.showSimpleFilter();
 
         let popular = {q: topics[Math.floor(Math.random() * topics.length)], 'media_type': 'image,video,audio'};
 
@@ -133,6 +143,8 @@ class App {
 
         this.resetResult();
 
+        this.currentResult = result;
+
         this.setHtmlContainer(Handlebars.templates.results({'title': 'Резултати'}));
 
         if (result.total_hits > 0) {
@@ -153,17 +165,16 @@ class App {
      */
     loadMedia(result) {
 
-        // this.resetResult();
-        //
-        // this.setHtmlContainer(Handlebars.templates.results({'title': 'Резултати'}));
-        //
-        // if (result.total_hits > 0) {
-        //
-        //     this.setHtmlResult(result.items);
-        //
-        // } else {
-        //     this.setHtmlContainer(Handlebars.templates.missing);
-        // }
+        let modal = Handlebars.templates.modalMedia;
+
+        let html = modal({'item': result});
+
+        $('body').append(html)
+        $('#mediaModal').modal('show');
+
+        $('#mediaModal').one('hidden.bs.modal', function () {
+            $(this).remove();
+        });
 
         return this;
     }

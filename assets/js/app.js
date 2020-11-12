@@ -62,19 +62,25 @@ var Utils = {
    * @returns {[]}
    */
   normalise: function normalise(items) {
-    var list = [];
+    var list = {};
     var data = null,
         link = null;
     items.forEach(function (item, key) {
-      var i = {};
       data = item.data[0];
       link = item.links !== undefined ? item.links[0] : null;
-      i.image = link !== null ? link.href : null;
-      i.title = data.title;
-      i.description = Utils.cutText(data.description, 200);
-      i.media_type = data.media_type;
-      i.media_id = data.nasa_id;
-      list.push(i);
+      var i = {
+        'image': link !== null ? link.href : null,
+        'title': data.title,
+        'description': Utils.cutText(data.description, 200),
+        'description_full': data.description,
+        'media_type': data.media_type,
+        'media_id': data.nasa_id,
+        'keywords': data.keywords,
+        'date_created': data.date_created,
+        'center': data.center,
+        'links': item.href
+      };
+      list[i.media_id] = i;
     });
     return list;
   },
@@ -279,7 +285,7 @@ var Api = /*#__PURE__*/function () {
     key: "call",
     value: function call(criteria, callback) {
       var that = this;
-      console.log(criteria);
+      app.setHtmlContainer(Handlebars.templates.placeholderItems());
 
       if (typeof callback !== 'function') {
         throw new ValidationError("Системен проблем!");
@@ -297,15 +303,15 @@ var Api = /*#__PURE__*/function () {
       query.push('media_type=' + criteria.media_type);
       if (criteria.center !== undefined) query.push('center=' + criteria.center);
       if (criteria.year_start !== undefined) query.push('year_start=' + criteria.year_start);
-      if (criteria.year_end !== undefined) query.push('year_end=' + criteria.year_end); //const cache = this.cache.getSearch(query);
-      //
-      // if (cache !== null) {
-      //     callback(cache);
-      //     return true;
-      // }
+      if (criteria.year_end !== undefined) query.push('year_end=' + criteria.year_end);
+      var cache = this.cache.getSearch(query);
+
+      if (cache !== null) {
+        callback(cache);
+        return true;
+      }
 
       var enpoint = this.endpointUrl + this.search + '?' + query.join('&');
-      console.log(enpoint);
       $.ajax({
         url: enpoint,
         dataType: 'json'
@@ -318,7 +324,7 @@ var Api = /*#__PURE__*/function () {
         that.cache.saveSearch(query, data);
         callback(data);
       }).fail(function () {
-        throw new ValidationError("Възникна проблем при четене от API! Опитайте след 5 минути.");
+        throw new ValidationError("Възникна проблем при четене от API! <br/>Опитайте след 5 минути.");
       });
       return this;
     }
@@ -332,39 +338,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "callMedia",
     value: function callMedia(mediaId, callback) {
-      var that = this;
-
-      if (typeof callback !== 'function') {
-        throw new ValidationError("Проблем с callback");
-      }
-
-      if (mediaId == undefined || mediaId.length <= 0) {
-        throw new ValidationError("Няма критерий на търсене!");
-      }
-
-      var query = [];
-      query.push('media_id=' + mediaId); // const cache = this.cache.getSearch(query);
-      //
-      // if (cache !== null) {
-      //     callback(cache);
-      //     return true;
-      // }
-
-      var enpoint = this.endpointUrl + this.media + mediaId;
-      $.ajax({
-        url: enpoint,
-        dataType: 'json'
-      }).done(function (result) {
-        consol.log(result); //const items = Utils.normalise(result.collection.items);
-        // let data = {
-        //     'items': items,
-        //     'total_hits': result.collection.metadata.total_hits
-        // };
-        //
-        // that.cache.saveSearch(query, data);
-
-        callback(data);
-      });
+      callback(mediaId);
       return this;
     }
   }]);
@@ -405,7 +379,7 @@ var Navigation = /*#__PURE__*/function () {
         app.prepareHome();
       });
       /**
-       * Оперира със базови линкове
+       * Оперира с базови линкове
        */
 
       $(document).on('click', '.lnk-modal', function (e) {
@@ -460,6 +434,7 @@ var Search = /*#__PURE__*/function () {
 
     this.timerSearch = null;
     this.nasaCenters = {
+      'HQ': 'NASA Headquarters',
       'ARC': 'Ames Research Center',
       'AFRC': 'Armstrong Flight Research Center',
       'GRC': 'Glenn Research Center',
@@ -522,7 +497,22 @@ var Search = /*#__PURE__*/function () {
       $(document).on('click', '.advanced-search', function (e) {
         e.preventDefault();
         clearTimeout(that.timerSearch);
-        that.showAdvance();
+        that.showAdvanceFilter();
+      });
+      /**
+       * Смяна на изгледа
+       */
+
+      $(document).on('click', '.switch .btn', function (e) {
+        e.preventDefault();
+        $('.switch .btn').toggleClass('btn-info').toggleClass('btn-light');
+        var gridItem = $('.results-container .grid-item'),
+            img = gridItem.find('.img-container'),
+            caption = gridItem.find('.caption');
+        gridItem.toggleClass('col-lg-6 col-xl-4');
+        img.toggleClass('col-md-5');
+        caption.toggleClass('col-md-7');
+        $('.results-container').masonry('layout');
       });
       return this;
     }
@@ -566,8 +556,8 @@ var Search = /*#__PURE__*/function () {
      */
 
   }, {
-    key: "showAdvance",
-    value: function showAdvance() {
+    key: "showAdvanceFilter",
+    value: function showAdvanceFilter() {
       $('.filter-wrapper form').html(Handlebars.templates.extendedFilter({
         'centers': this.nasaCenters
       }));
@@ -580,8 +570,8 @@ var Search = /*#__PURE__*/function () {
      */
 
   }, {
-    key: "showSimple",
-    value: function showSimple() {
+    key: "showSimpleFilter",
+    value: function showSimpleFilter() {
       $('.filter-wrapper form').html(Handlebars.templates.mainFilter());
       return this;
     }
@@ -640,9 +630,11 @@ var App = /*#__PURE__*/function () {
   _createClass(App, [{
     key: "init",
     value: function init() {
+      var that = this;
       AOS.init({
         once: true
       });
+      that.currentResult = null;
       this.navigation = new Navigation();
       this.search = new Search();
       this.api = new Api();
@@ -650,7 +642,12 @@ var App = /*#__PURE__*/function () {
         e.preventDefault();
         var parent = $(this).closest('.grid-item'),
             id = parent.data('id');
-        app.api.callMedia(id, app.loadMedia);
+
+        if (that.currentResult !== null) {
+          if (that.currentResult.items[id] !== undefined) {
+            console.log(that.currentResult.items[id]); //app.api.callMedia(id, , that.loadMedia);
+          }
+        }
       });
       return this;
     }
@@ -700,8 +697,8 @@ var App = /*#__PURE__*/function () {
   }, {
     key: "loadHome",
     value: function loadHome() {
-      var topics = ['mars', 'voyager', 'viking'];
-      this.search.showSimple();
+      var topics = ['mars', 'voyager', 'viking', 'spacex'];
+      this.search.showSimpleFilter();
       var popular = {
         q: topics[Math.floor(Math.random() * topics.length)],
         'media_type': 'image,video,audio'
@@ -750,6 +747,7 @@ var App = /*#__PURE__*/function () {
     key: "loadResults",
     value: function loadResults(result) {
       this.resetResult();
+      this.currentResult = result;
       this.setHtmlContainer(Handlebars.templates.results({
         'title': 'Резултати'
       }));
@@ -771,17 +769,15 @@ var App = /*#__PURE__*/function () {
   }, {
     key: "loadMedia",
     value: function loadMedia(result) {
-      // this.resetResult();
-      //
-      // this.setHtmlContainer(Handlebars.templates.results({'title': 'Резултати'}));
-      //
-      // if (result.total_hits > 0) {
-      //
-      //     this.setHtmlResult(result.items);
-      //
-      // } else {
-      //     this.setHtmlContainer(Handlebars.templates.missing);
-      // }
+      var modal = Handlebars.templates.modalMedia;
+      var html = modal({
+        'item': result
+      });
+      $('body').append(html);
+      $('#mediaModal').modal('show');
+      $('#mediaModal').one('hidden.bs.modal', function () {
+        $(this).remove();
+      });
       return this;
     }
     /**
