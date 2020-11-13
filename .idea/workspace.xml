@@ -11,22 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8375b0c0-b498-4a34-bfd2-ef4dbabbacc1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/templates/elements/switch.handlebars" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/templates/modal/modalMedia.handlebars" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/modules/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/navigation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/modules/cache.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/cache.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/modules/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/scss/_custom.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/scss/_custom.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/elements/item.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/elements/item.handlebars" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/elements/placeholderItems.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/elements/placeholderItems.handlebars" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/pages/error.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/pages/error.handlebars" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/pages/results.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/pages/results.handlebars" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/modal/modalMedia.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/modal/modalMedia.handlebars" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +104,8 @@
       <workItem from="1605076758464" duration="13399000" />
       <workItem from="1605121392658" duration="4122000" />
       <workItem from="1605209523008" duration="291000" />
-      <workItem from="1605210072214" duration="8848000" />
+      <workItem from="1605210072214" duration="9015000" />
+      <workItem from="1605251134643" duration="4574000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1604821325057</created>
@@ -142,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605122161893</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="wip">
+      <created>1605221483556</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1605221483556</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +164,8 @@
     <MESSAGE value="init" />
     <MESSAGE value="initial" />
     <MESSAGE value="Initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial" />
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
   <component name="WindowStateProjectService">
     <state x="437" y="247" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604558272443">

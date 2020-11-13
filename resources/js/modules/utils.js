@@ -37,10 +37,10 @@ const Utils = {
         let list = {};
         let data = null, link = null;
         items.forEach(function (item, key) {
-
-
             data = item.data[0];
             link = item.links !== undefined ? item.links[0] : null;
+
+            let date = new Date(data.date_created);
 
             let i = {
                 'image': link !== null ? link.href : null,
@@ -49,8 +49,8 @@ const Utils = {
                 'description_full': data.description,
                 'media_type': data.media_type,
                 'media_id': data.nasa_id,
-                'keywords': data.keywords,
-                'date_created': data.date_created,
+                'keywords': data.keywords !== undefined ? data.keywords.join(', ') : 'Няма',
+                'date_created': date.toDateString(),
                 'center': data.center,
                 'links': item.href
             };

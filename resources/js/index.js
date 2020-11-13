@@ -39,9 +39,12 @@ class App {
             if (that.currentResult !== null) {
                 if (that.currentResult.items[id] !== undefined) {
 
-                    console.log(that.currentResult.items[id]);
-
-                    //app.api.callMedia(id, , that.loadMedia);
+                    let item = that.currentResult.items[id];
+                    if (item.media_type === 'image') {
+                        that.loadMedia(item);
+                    } else {
+                        app.api.callMedia(item, that.loadMedia);
+                    }
                 }
             }
         });

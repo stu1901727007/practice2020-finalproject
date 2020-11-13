@@ -39,8 +39,11 @@ class CacheApi {
 
         cache[hash] = data;
 
-        this.set(this.cacheApi, JSON.stringify(cache));
-
+        try {
+            this.set(this.cacheApi, JSON.stringify(cache));
+        } catch (e) {
+            this.clear();
+        }
         return true
     }
 

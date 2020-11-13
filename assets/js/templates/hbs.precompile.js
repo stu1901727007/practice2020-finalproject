@@ -139,6 +139,12 @@ templates['modal'] = template({"compiler":[8,">= 4.3.0"],"main":function(contain
     + "\n            </div>\n        </div>\n    </div>\n</div>";
 },"useData":true});
 templates['modalMedia'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "                        <span class=\"badge badge-light\">Албум</span>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "                        <span class=\"badge badge-secondary\">Аудио</span>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    return "                        <span class=\"badge badge-info\">Видео</span>\n";
+},"7":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -148,10 +154,8 @@ templates['modalMedia'] = template({"1":function(container,depth0,helpers,partia
 
   return "                            <img class=\"img-fluid\" src=\""
     + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"image") : stack1), depth0))
-    + "\"/>\n                            <span class=\"badge badge-light\">Албум</span>\n";
-},"3":function(container,depth0,helpers,partials,data) {
-    return "                            <img class=\"img-fluid\" src=\"assets/images/img.jpg\"/>\n                            <span class=\"badge badge-secondary\">Аудио</span>\n";
-},"5":function(container,depth0,helpers,partials,data) {
+    + "\"/>\n";
+},"9":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -159,9 +163,20 @@ templates['modalMedia'] = template({"1":function(container,depth0,helpers,partia
         return undefined
     };
 
-  return "                            <img class=\"img lazy\" src=\"assets/images/img.jpg\" data-src=\""
-    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"image") : stack1), depth0))
-    + "\"/>\n                            <span class=\"badge badge-info\">Видео</span>\n";
+  return "                            <audio controls autoplay class=\"w-100 mt-3\">\n                                <source src=\""
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media") : stack1), depth0))
+    + "\" type=\"audio/mpeg\">\n                                Your browser does not support the audio element.\n                            </audio>\n";
+},"11":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                            <div class=\"embed-responsive embed-responsive-16by9\">\n                                <iframe class=\"embed-responsive-item\" src=\""
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media") : stack1), depth0))
+    + "\" allowfullscreen></iframe>\n                            </div>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=container.hooks.helperMissing, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -170,19 +185,29 @@ templates['modalMedia'] = template({"1":function(container,depth0,helpers,partia
         return undefined
     };
 
-  return "<div class=\"modal fade bd-example-modal-lg\" id=\"mediaModal\" tabindex=\"-1\" role=\"dialog\"\n     aria-labelledby=\"myLargeModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-lg\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\">"
+  return "<div class=\"modal fade bd-example-modal-lg\" id=\"mediaModal\" tabindex=\"-1\" role=\"dialog\"\n     aria-labelledby=\"myLargeModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-xl\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\">\n                    "
     + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
-    + "</h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"img-container col-md-6\">\n\n"
-    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"image",{"name":"ifeq","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":16,"column":24},"end":{"line":19,"column":33}}})) != null ? stack1 : "")
+    + "\n\n"
+    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"image",{"name":"ifeq","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":9,"column":20},"end":{"line":11,"column":29}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"audio",{"name":"ifeq","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":21,"column":24},"end":{"line":24,"column":33}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"audio",{"name":"ifeq","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":20},"end":{"line":15,"column":29}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"video",{"name":"ifeq","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":26,"column":24},"end":{"line":29,"column":33}}})) != null ? stack1 : "")
-    + "\n                    </div>\n                    <div class=\"caption col-md-6\">\n<!--                        <h5>-->\n<!--                            <a href=\"#\" class=\"item-url\">"
-    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
-    + "</a>-->\n<!--                        </h5>-->\n                        <p class=\"inner\">\n                            "
+    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"video",{"name":"ifeq","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":17,"column":20},"end":{"line":19,"column":29}}})) != null ? stack1 : "")
+    + "                </h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"img-container col-md-6\">\n\n"
+    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"image",{"name":"ifeq","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":30,"column":24},"end":{"line":32,"column":33}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"audio",{"name":"ifeq","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":34,"column":24},"end":{"line":39,"column":33}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (lookupProperty(helpers,"ifeq")||(depth0 && lookupProperty(depth0,"ifeq"))||alias4).call(alias3,((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"media_type") : stack1),"video",{"name":"ifeq","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":41,"column":24},"end":{"line":45,"column":33}}})) != null ? stack1 : "")
+    + "\n                    </div>\n                    <div class=\"caption col-md-6\">\n\n                        <div class=\"inner full-text\">\n                            "
     + ((stack1 = alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"description_full") : stack1), depth0)) != null ? stack1 : "")
-    + "\n                        </p>\n                    </div>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div>\n\n";
+    + "\n                        </div>\n\n                        <div class=\"inner mt-3\">\n                            <strong>Публикувано на</strong> : "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"date_created") : stack1), depth0))
+    + "\n                        </div>\n\n\n                        <div class=\"inner mt-3\">\n                            <strong>Център</strong> : "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"center") : stack1), depth0))
+    + "\n                        </div>\n\n\n                        <div class=\"inner mt-3\">\n                            <strong>Ключови думи</strong> : "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"item") : depth0)) != null ? lookupProperty(stack1,"keywords") : stack1), depth0))
+    + "\n                        </div>\n\n\n                    </div>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div>\n\n";
 },"useData":true});
 templates['error'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {

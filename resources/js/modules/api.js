@@ -97,13 +97,27 @@ class Api {
      * @param callback
      * @returns {Api|boolean}
      */
-    callMedia(mediaId, callback) {
+    callMedia(item, callback) {
 
+        $.ajax({
+            url: item.links,
+            dataType: 'json'
+        }).done(function (result) {
 
+            let search = (item.media_type === 'video' ? '.mp4' : '.mp3');
 
+            for (let x in result) {
+                if (result[x].indexOf(search) > 0) {
+                    item.media = result[x];
+                    break;
+                }
+            }
 
+            callback(item);
 
-        callback(mediaId);
+        }).fail(function () {
+            throw new ValidationError("Възникна проблем при четене от API! <br/>Опитайте след 5 минути.");
+        });
 
         return this;
     }

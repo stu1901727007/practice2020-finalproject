@@ -68,6 +68,7 @@ var Utils = {
     items.forEach(function (item, key) {
       data = item.data[0];
       link = item.links !== undefined ? item.links[0] : null;
+      var date = new Date(data.date_created);
       var i = {
         'image': link !== null ? link.href : null,
         'title': data.title,
@@ -75,8 +76,8 @@ var Utils = {
         'description_full': data.description,
         'media_type': data.media_type,
         'media_id': data.nasa_id,
-        'keywords': data.keywords,
-        'date_created': data.date_created,
+        'keywords': data.keywords !== undefined ? data.keywords.join(', ') : 'Няма',
+        'date_created': date.toDateString(),
         'center': data.center,
         'links': item.href
       };
@@ -192,7 +193,13 @@ var CacheApi = /*#__PURE__*/function () {
       var hash = md5(JSON.stringify(criteria));
       var cache = JSON.parse(this.get(this.cacheApi));
       cache[hash] = data;
-      this.set(this.cacheApi, JSON.stringify(cache));
+
+      try {
+        this.set(this.cacheApi, JSON.stringify(cache));
+      } catch (e) {
+        this.clear();
+      }
+
       return true;
     }
     /**
@@ -337,8 +344,24 @@ var Api = /*#__PURE__*/function () {
 
   }, {
     key: "callMedia",
-    value: function callMedia(mediaId, callback) {
-      callback(mediaId);
+    value: function callMedia(item, callback) {
+      $.ajax({
+        url: item.links,
+        dataType: 'json'
+      }).done(function (result) {
+        var search = item.media_type === 'video' ? '.mp4' : '.mp3';
+
+        for (var x in result) {
+          if (result[x].indexOf(search) > 0) {
+            item.media = result[x];
+            break;
+          }
+        }
+
+        callback(item);
+      }).fail(function () {
+        throw new ValidationError("Възникна проблем при четене от API! <br/>Опитайте след 5 минути.");
+      });
       return this;
     }
   }]);
@@ -645,7 +668,13 @@ var App = /*#__PURE__*/function () {
 
         if (that.currentResult !== null) {
           if (that.currentResult.items[id] !== undefined) {
-            console.log(that.currentResult.items[id]); //app.api.callMedia(id, , that.loadMedia);
+            var item = that.currentResult.items[id];
+
+            if (item.media_type === 'image') {
+              that.loadMedia(item);
+            } else {
+              app.api.callMedia(item, that.loadMedia);
+            }
           }
         }
       });
