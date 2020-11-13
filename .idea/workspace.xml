@@ -11,14 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8375b0c0-b498-4a34-bfd2-ef4dbabbacc1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/templates/hbs.precompile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/cache.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/cache.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/modules/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/modules/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/modal/modalMedia.handlebars" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/modal/modalMedia.handlebars" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +99,7 @@
       <workItem from="1605121392658" duration="4122000" />
       <workItem from="1605209523008" duration="291000" />
       <workItem from="1605210072214" duration="9015000" />
-      <workItem from="1605251134643" duration="4574000" />
+      <workItem from="1605251134643" duration="4922000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1604821325057</created>
